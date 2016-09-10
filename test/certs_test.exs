@@ -1,5 +1,5 @@
 defmodule CertsTest do
-    use ExUnit.Case
+    use ExUnit.Case, async: true
 
     require Logger
 

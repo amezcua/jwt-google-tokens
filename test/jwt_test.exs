@@ -1,5 +1,5 @@
 defmodule JwtTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
   doctest Jwt
 
   @google_certs_api Application.get_env(:jwt, :googlecerts)
