@@ -1,7 +1,5 @@
 defmodule Jwt.GoogleCerts.PublicKey do
 
-  require Logger
-
   @discovery_url "https://accounts.google.com/.well-known/openid-configuration"
   @jwt_uri_in_discovery "jwks_uri"
   @keys_in_certificates "keys"
@@ -24,19 +22,8 @@ defmodule Jwt.GoogleCerts.PublicKey do
         |> extract_public_key_for_id(id)
   end
 
-  defp get_response_body(%{body: body, headers: _headers, status_code: 200}) do
-    Logger.info "Response downloaded"
-    Logger.debug fn -> inspect(body) end
-
-    {:ok, body}
-  end
-
-  defp get_response_body(%{body: body, headers: _headers, status_code: status_code}) do
-    Logger.error "Response error"
-    Logger.error fn -> inspect("#{status_code}: #{body}") end
-
-    {:error, body}
-  end
+  defp get_response_body(%{body: body, headers: _headers, status_code: 200}), do: {:ok, body}
+  defp get_response_body(%{body: body, headers: _headers, status_code: status_code}), do: {:error, body}
 
   defp extract_certificated_url({:ok, body}) do
     {:ok, parsed} = Poison.Parser.parse body
