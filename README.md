@@ -32,6 +32,29 @@ The package can be installed as (will try to make it available in Hex in a futur
     end
     ```
 
+## Plug
+
+A plug 
+
+```elixir
+Jwt.Plug
+```
+
+is included with the library to allow for integration in web frameworks. The plug looks at the authorization HTTP header to see if it includes a value with the format
+
+```elixir
+Authorization: Bearer [JWT]
+```
+
+where *[JWT]* is a JWT token. If it is there the library will attempt to validate it and attach the claims to the *Plug.Conn* object. The claims can then be accessed with the *:jwtclaims* atom:
+
+```elixir
+claims = conn.assigns[:jwtclaims]
+name = claims["name"]
+```
+
+If the token is invalid, the plug with directly return a 401 response to the client.
+
 ## Limitations
 
 * At this point the library only can verify RSA SHA256 signed tokens. It uses the [public discovery document](https://developers.google.com/identity/protocols/OpenIDConnect#discovery) provided by Google to retrieve the public key used to verify the RSA signatures but if the signing method is changed by Google the library will fail to verify the tokens.
