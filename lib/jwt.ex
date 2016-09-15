@@ -1,5 +1,5 @@
 defmodule Jwt do
-    @google_certs_api Application.get_env(:jwt, :googlecerts)
+    @google_certs_api Application.get_env(:jwt, :googlecerts, Jwt.GoogleCerts.PublicKey)
     @invalid_token_error {:error, "Invalid token"}
     @invalid_signature_error {:error, "Invalid signature"}
     @key_id "kid"
