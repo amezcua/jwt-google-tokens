@@ -58,6 +58,8 @@ name = claims["name"]
 
 If the token is invalid, the plug with directly return a 401 response to the client.
 
+The tokens expiration timestamp are also checked to verify that they have not expired. Expired tokens (within a 5 minute time difference) are rejected.
+
 ## Limitations
 
 * At this point the library only can verify RSA SHA256 signed tokens. It uses the [public discovery document](https://developers.google.com/identity/protocols/OpenIDConnect#discovery) provided by Google to retrieve the public key used to verify the RSA signatures but if the signing method is changed by Google the library will fail to verify the tokens.

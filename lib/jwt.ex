@@ -6,7 +6,8 @@ defmodule Jwt do
     @alg "alg"
 
     @doc """
-        Verifies a Google generated JWT token against the current public Google certificates and returns the claims if the token is verified successfully.
+        Verifies a Google generated JWT token against the current public Google certificates and returns the claims
+        if the token's signature is verified successfully.
 
         ## Example
             iex > {:ok, {claims}} = Jwt.verify token
@@ -17,7 +18,7 @@ defmodule Jwt do
         _verify(Enum.map(token_parts, fn(part) -> Base.url_decode64(part, padding: false) end), token_parts)
     end
 
-    defp _verify([{:ok, header}, {:ok, claims}, {:ok, signature}], [header_b64, claims_b64, _signature_b64]) do
+    defp _verify([{:ok, header}, {:ok, _claims}, {:ok, signature}], [header_b64, claims_b64, _signature_b64]) do
         Poison.Parser.parse!(header)[@key_id]
             |> @google_certs_api.getfor
             |> verify_signature(header_b64, claims_b64, signature)

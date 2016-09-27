@@ -23,7 +23,7 @@ defmodule Jwt.GoogleCerts.PublicKey do
   end
 
   defp get_response_body(%{body: body, headers: _headers, status_code: 200}), do: {:ok, body}
-  defp get_response_body(%{body: body, headers: _headers, status_code: status_code}), do: {:error, body}
+  defp get_response_body(%{body: body, headers: _headers, status_code: _status_code}), do: {:error, body}
 
   defp extract_certificated_url({:ok, body}) do
     {:ok, parsed} = Poison.Parser.parse body
