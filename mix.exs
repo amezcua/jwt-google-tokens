@@ -3,7 +3,7 @@ defmodule Jwt.Mixfile do
 
   def project do
     [app: :jwt,
-     version: "0.2.2",
+     version: "0.5.0",
      elixir: "~> 1.3",
      elixirc_paths: elixirc_paths(Mix.env),
      build_embedded: Mix.env == :prod,
@@ -12,7 +12,10 @@ defmodule Jwt.Mixfile do
   end
 
   def application do
-    [ applications: [:logger, :httpoison, :cowboy, :plug] ]
+    [
+        applications: [:logger, :httpoison, :cowboy, :plug, :timex],
+        mod: {Jwt.Cache.Ets, []}
+    ]
   end
 
   defp elixirc_paths(:test), do: ["lib", "test/support"]
@@ -25,7 +28,9 @@ defmodule Jwt.Mixfile do
     {:poison, "~> 2.0" },
     {:ex_doc, github: "elixir-lang/ex_doc" },
     {:cowboy, "~> 1.0.0"},
-    {:plug, "~> 1.0"}
+    {:plug, "~> 1.0"},
+    {:stash, "~> 1.0.0"},
+    {:timex, "~> 3.0"}
     ]
   end
 end
