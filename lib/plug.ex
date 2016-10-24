@@ -1,8 +1,6 @@
 defmodule Jwt.Plug do
     import Plug.Conn
 
-    require Logger
-
     @timeutils Application.get_env(:jwt, :timeutils, Jwt.TimeUtils)
     @authorization_header "authorization"
     @bearer "Bearer "

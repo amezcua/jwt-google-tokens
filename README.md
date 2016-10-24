@@ -23,7 +23,7 @@ The package can be installed as (will try to make it available in Hex in a futur
 
     ```elixir
     def deps do
-      [{:jwt, "~> 0.1.0"}]
+      [{:jwt, git: "https://github.com/amezcua/jwt-google-tokens.git", branch: "master"}]
     end
     ```
 
@@ -62,9 +62,7 @@ The tokens expiration timestamp are also checked to verify that they have not ex
 
 ## Limitations
 
-* At this point the library only can verify RSA SHA256 signed tokens. It uses the [public discovery document](https://developers.google.com/identity/protocols/OpenIDConnect#discovery) provided by Google to retrieve the public key used to verify the RSA signatures but if the signing method is changed by Google the library will fail to verify the tokens.
-
-* For every verification request the library does two HTTP calls to retrieve the discovery document and the keys document. Those documents should be cached but they are not being cached at this moment so be aware of it if you use it.
+* At this point the library does not validate any extra claims besides the signature.
 
 ## License
 

@@ -1,5 +1,6 @@
 defmodule Jwt.GoogleCerts.PublicKey do
 
+  @httpclient Jwt.HttpCacheClient
   @discovery_url "https://accounts.google.com/.well-known/openid-configuration"
   @jwt_uri_in_discovery "jwks_uri"
   @keys_in_certificates "keys"
@@ -10,7 +11,7 @@ defmodule Jwt.GoogleCerts.PublicKey do
   def getfor(id), do: fetch id
 
   defp fetch(id) do
-    HTTPoison.get!(@discovery_url)
+    @httpclient.get!(@discovery_url)
         |> get_response_body
         |> extract_certificated_url
         |> case do
@@ -35,7 +36,7 @@ defmodule Jwt.GoogleCerts.PublicKey do
 
   defp extract_certificated_url({:error, _body}), do: []
 
-  defp request_certificates_uri({:ok, uri}), do: HTTPoison.get! uri
+  defp request_certificates_uri({:ok, uri}), do: @httpclient.get! uri
   defp request_certificates_uri({:error, _}), do: %{body: nil, headers: nil, status_code: 404}
 
   defp extract_public_key_for_id({:error, _}, _id), do: nil
