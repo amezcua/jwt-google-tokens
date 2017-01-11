@@ -5,9 +5,9 @@
 
 Elixir library that verifies Google generated JWT tokens (such as those returned by Firebase authentication) and returns the claims data.
 
-The intended use case is to validate signed tokens retrieved by a mobile app using [Firebase Authentication](https://firebase.google.com/docs/auth/), where the app talks directly with the Google Authentication service and retrieves an authentication token (a Json Web Token) that can be later sent to a server for verification.  
+The intended use case is to validate signed tokens retrieved by a mobile app using [Firebase Authentication](https://firebase.google.com/docs/auth/), where the app talks directly with the Google Authentication service and retrieves an authentication token (a Json Web Token) that can be later sent to a server for verification or by web apps that use the Firebase [JavaScript API](https://firebase.google.com/docs/auth/web/google-signin).  
 
-JWT tokens are also returned by other Google authentication services and this library can be used to verify them too. 
+JWT tokens are also returned by other Google authentication services and this library could be used to verify them too.
 
 ## Usage
 
@@ -17,7 +17,7 @@ JWT tokens are also returned by other Google authentication services and this li
 
 ## Installation
 
-The package can be installed as (will try to make it available in Hex in a future version):
+The package can be installed as follows (will try to make it available in Hex in a future version):
 
   1. Add `jwt` to your list of dependencies in `mix.exs`:
 

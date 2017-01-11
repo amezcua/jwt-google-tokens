@@ -29,7 +29,7 @@ defmodule Jwt.GoogleCerts.PublicKey do
   defp extract_certificated_url({:ok, body}) do
     {:ok, parsed} = Poison.Parser.parse body
     case parsed[@jwt_uri_in_discovery] do
-        nil -> {:error, "No JWT url found"}
+        nil -> {:notfounderror, "No JWT url found"}
         _ -> {:ok, parsed[@jwt_uri_in_discovery]}
     end
   end
@@ -46,7 +46,7 @@ defmodule Jwt.GoogleCerts.PublicKey do
     key = List.first(Enum.filter parsed["keys"], fn key -> key["kid"] == id end)
 
     case key do
-      nil -> {:error, "Public key id not found"}
+      nil -> {:notfounderror, "Public key id not found"}
       _ -> {:ok, %{exp: key[@exponent], mod: key[@modulus]}}
     end
   end

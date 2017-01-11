@@ -56,5 +56,9 @@ defmodule Jwt.Plug do
     defp continue_if_verified({:ok, claims}, conn) do
         assign(conn, :jwtclaims, claims)
     end
-    defp continue_if_verified({:error, _}, conn), do: send_resp(conn, 401, "")
+    defp continue_if_verified({:error, _}, conn) do
+        conn
+         |> send_resp(401, "")
+         |> halt
+    end
 end
