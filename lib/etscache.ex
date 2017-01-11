@@ -44,7 +44,6 @@ defmodule Jwt.Cache.Ets do
 
     defp _get(uri) do
         value = :ets.lookup(@cache_table_name, uri)
-        #Logger.debug "#{inspect uri} -> #{inspect value}"
         case value do
           [] -> {:error, uri}
           _ -> {:ok,  elem(Enum.at(value, 0), 1)}
