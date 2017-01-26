@@ -12,7 +12,7 @@ JWT tokens are also returned by other Google authentication services and this li
 ## Usage
 
 ```elixir
-    iex > {:ok, {claims}} = Jwt.verify token
+iex > {:ok, {claims}} = Jwt.verify token
 ```
 
 ## Installation
@@ -21,35 +21,33 @@ The package can be installed as follows (will try to make it available in Hex in
 
   1. Add `jwt` to your list of dependencies in `mix.exs`:
 
-    ```elixir
-    def deps do
-      [{:jwt, git: "https://github.com/amezcua/jwt-google-tokens.git", branch: "master"}]
-    end
-    ```
+```elixir
+def deps do
+  [{:jwt, git: "https://github.com/amezcua/jwt-google-tokens.git", branch: "master"}]
+end
+```
 
   2. Ensure `jwt` is started before your application:
 
-    ```elixir
-    def application do
-      [applications: [:jwt]]
-    end
-    ```
-
-## Plug
-
-A plug 
-
 ```elixir
-Jwt.Plug
+def application do
+  [applications: [:jwt]]
+end
 ```
 
-is included with the library to allow for integration in web frameworks. The plug looks at the authorization HTTP header to see if it includes a value with the format
+## Plugs
 
-```elixir
+```
+Jwt.Plugs.VerifySignature
+```
+
+The plug looks at the authorization HTTP header to see if it includes a value with the format
+
+```
 Authorization: Bearer [JWT]
 ```
 
-where *[JWT]* is a JWT token. If it is there the library will attempt to validate it and attach the claims to the *Plug.Conn* object. The claims can then be accessed with the *:jwtclaims* atom:
+where *[JWT]* is a JWT token. If it is there the library will attempt to verify the signature and attach the claims to the *Plug.Conn* object. The claims can then be accessed with the *:jwtclaims* atom:
 
 ```elixir
 claims = conn.assigns[:jwtclaims]

@@ -1,4 +1,4 @@
-defmodule Jwt.Plug do
+defmodule Jwt.Plugs.VerifySignature do
     import Plug.Conn
 
     @timeutils Application.get_env(:jwt, :timeutils, Jwt.TimeUtils)
