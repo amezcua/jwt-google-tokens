@@ -47,7 +47,7 @@ defmodule Jwt.GoogleCerts.PublicKey do
 
     case key do
       nil -> {:notfounderror, "Public key id not found"}
-      _ -> {:ok, %{exp: key[@exponent], mod: key[@modulus]}}
+      _ -> {:ok, %{exp: Base.url_decode64!(key[@exponent], padding: false), mod: Base.url_decode64!(key[@modulus], padding: false)}}
     end
   end
 end
