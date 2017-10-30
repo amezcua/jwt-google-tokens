@@ -11,8 +11,8 @@ JWT tokens are also returned by other Google authentication services and this li
 
 ## Usage
 
-```elixir
-iex > {:ok, {claims}} = Jwt.verify token
+```
+iex > {:ok, claims} = Jwt.verify token
 ```
 
 ## Installation
@@ -21,7 +21,7 @@ The package can be installed as follows (will try to make it available in Hex in
 
   1. Add `jwt` to your list of dependencies in `mix.exs`:
 
-```elixir
+```
 def deps do
   [{:jwt, git: "https://github.com/amezcua/jwt-google-tokens.git", branch: "master"}]
 end
@@ -29,16 +29,26 @@ end
 
   2. Ensure `jwt` is started before your application:
 
-```elixir
+```
 def application do
   [applications: [:jwt]]
 end
 ```
 
-## Plugs
+or, depending on your version of Elixir
 
 ```
-Jwt.Plugs.VerifySignature
+def application do
+    [ extra_applications: [:jwt] ]
+end
+```
+
+## Plugs
+
+Two plugs are provided:
+
+```
+- Jwt.Plugs.VerifySignature
 ```
 
 The plug looks at the authorization HTTP header to see if it includes a value with the format
@@ -49,7 +59,7 @@ Authorization: Bearer [JWT]
 
 where *[JWT]* is a JWT token. If it is there the library will attempt to verify the signature and attach the claims to the *Plug.Conn* object. The claims can then be accessed with the *:jwtclaims* atom:
 
-```elixir
+```
 claims = conn.assigns[:jwtclaims]
 name = claims["name"]
 ```
@@ -58,9 +68,11 @@ If the token is invalid, the plug with directly return a 401 response to the cli
 
 The tokens expiration timestamp are also checked to verify that they have not expired. Expired tokens (within a 5 minute time difference) are rejected.
 
-## Limitations
+```
+- Jwt.Plugs.FilterClaims
+```
 
-* At this point the library does not validate any extra claims besides the signature.
+This plug allows you to accept or deny a request based on the contents of the claims. Please take a look at the tests to see the different options you have to filter a request based on the token content.
 
 ## License
 
