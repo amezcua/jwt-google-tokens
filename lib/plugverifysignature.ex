@@ -1,5 +1,7 @@
-defmodule Jwt.Plug do
+defmodule Jwt.Plugs.VerifySignature do
     import Plug.Conn
+
+    require Logger
 
     @timeutils Application.get_env(:jwt, :timeutils, Jwt.TimeUtils)
     @authorization_header "authorization"
@@ -17,6 +19,8 @@ defmodule Jwt.Plug do
     end
 
     def call(conn, opts) do
+        Logger.debug "call. Authorization header: #{inspect get_req_header(conn, @authorization_header)}"
+
         List.first(get_req_header(conn, @authorization_header))
         |> extract_token
         |> verify_token(opts)
