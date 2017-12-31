@@ -24,12 +24,12 @@ defmodule Jwt.Mixfile do
 
   defp deps do
     [
-    {:httpoison, "~> 0.9.0" },
+    {:httpoison, "~> 0.13" },
     {:poison, "~> 2.0" },
     {:ex_doc, github: "elixir-lang/ex_doc" },
-    {:cowboy, "~> 1.0.0"},
+    {:cowboy, "~> 1.0"},
     {:plug, "~> 1.0"},
-    {:stash, "~> 1.0.0"},
+    {:stash, "~> 1.0"},
     {:timex, "~> 3.0"}
     ]
   end
