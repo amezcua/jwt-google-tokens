@@ -24,7 +24,7 @@ defmodule Jwt.Mixfile do
 
   defp deps do
     [
-    {:httpoison, "~> 0.13" },
+    {:httpoison, "~> 1.0" },
     {:poison, "~> 2.0 or ~> 3.0" },
     {:ex_doc, only: :dev, runtime: false, github: "elixir-lang/ex_doc" },
     {:cowboy, "~> 1.0"},
