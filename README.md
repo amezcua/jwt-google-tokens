@@ -15,6 +15,12 @@ JWT tokens are also returned by other Google authentication services and this li
 iex > {:ok, claims} = Jwt.verify token
 ```
 
+If you just want to display the contents (claims) of a token quickly you can just run:
+```
+iex > Jwt.Display.display token
+```
+No validation is performed in the token in that case.
+
 ## Installation
 
 The package can be installed as follows (will try to make it available in Hex in a future version):
