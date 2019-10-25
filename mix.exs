@@ -14,7 +14,8 @@ defmodule Jwt.Mixfile do
   def application do
     [
         applications: [:logger, :httpoison, :cowboy, :plug, :timex],
-        mod: {Jwt.Cache.Ets, []}
+        mod: {Jwt.Cache.Ets, []},
+        env: [plug_cookie_name: "googlejwt"]
     ]
   end
 

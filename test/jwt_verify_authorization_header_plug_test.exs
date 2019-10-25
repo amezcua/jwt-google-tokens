@@ -1,6 +1,8 @@
-defmodule JwtVerifySignaturePlugTest do
+defmodule JwtVerifyAuthorizationHeaderPlugTest do
   use ExUnit.Case, async: true
   use Plug.Test
+
+  @plug Jwt.Plugs.VerifyAuthorizationHeader
 
   @opts []
 
@@ -15,7 +17,7 @@ defmodule JwtVerifySignaturePlugTest do
     Application.put_env(:jwt, :current_time_for_test, :os.system_time(:seconds))
     conn = conn(:get, "/protected")
 
-    conn = Jwt.Plugs.VerifySignature.call(conn, Jwt.Plugs.VerifySignature.init(@opts))
+    conn = @plug.call(conn, @plug.init(@opts))
 
     assert conn.state == :sent
     assert conn.status == 401
@@ -27,7 +29,7 @@ defmodule JwtVerifySignaturePlugTest do
     conn = conn(:get, "/protected")
     conn = put_req_header conn, "authorization", ""
 
-    conn = Jwt.Plugs.VerifySignature.call(conn, Jwt.Plugs.VerifySignature.init(@opts))
+    conn = @plug.call(conn, @plug.init(@opts))
 
     assert conn.state == :sent
     assert conn.status == 401
@@ -39,7 +41,7 @@ defmodule JwtVerifySignaturePlugTest do
     conn = conn(:get, "/protected")
     conn = put_req_header conn, "authorization", "token"
 
-    conn = Jwt.Plugs.VerifySignature.call(conn, Jwt.Plugs.VerifySignature.init(@opts))
+    conn = @plug.call(conn, @plug.init(@opts))
 
     assert conn.state == :sent
     assert conn.status == 401
@@ -53,7 +55,7 @@ defmodule JwtVerifySignaturePlugTest do
 
     conn = conn(:get, "/protected")
     conn = put_req_header conn, "authorization", auth_header
-    conn = Jwt.Plugs.VerifySignature.call(conn, Jwt.Plugs.VerifySignature.init([true, 5 * 60]))
+    conn = @plug.call(conn, @plug.init([true, 5 * 60]))
 
     claims = conn.assigns[:jwtclaims]
     assert claims != nil
@@ -67,7 +69,7 @@ defmodule JwtVerifySignaturePlugTest do
 
     conn = conn(:get, "/protected")
     conn = put_req_header conn, "authorization", auth_header
-    conn = Jwt.Plugs.VerifySignature.call(conn, Jwt.Plugs.VerifySignature.init(@opts))
+    conn = @plug.call(conn, @plug.init(@opts))
 
     assert conn.state == :sent
     assert conn.status == 401
@@ -81,7 +83,7 @@ defmodule JwtVerifySignaturePlugTest do
 
     conn = conn(:get, "/protected")
     conn = put_req_header conn, "authorization", auth_header
-    conn = Jwt.Plugs.VerifySignature.call(conn, Jwt.Plugs.VerifySignature.init(@opts))
+    conn = @plug.call(conn, @plug.init(@opts))
 
     claims = conn.assigns[:jwtclaims]
     assert claims != nil
@@ -95,7 +97,7 @@ defmodule JwtVerifySignaturePlugTest do
 
     conn = conn(:get, "/protected")
     conn = put_req_header conn, "authorization", auth_header
-    conn = Jwt.Plugs.VerifySignature.call(conn, Jwt.Plugs.VerifySignature.init(@opts))
+    conn = @plug.call(conn, @plug.init(@opts))
 
     assert conn.state == :sent
     assert conn.status == 401
@@ -109,7 +111,7 @@ defmodule JwtVerifySignaturePlugTest do
 
     conn = conn(:get, "/protected")
     conn = put_req_header conn, "authorization", auth_header
-    conn = Jwt.Plugs.VerifySignature.call(conn, Jwt.Plugs.VerifySignature.init(@opts))
+    conn = @plug.call(conn, @plug.init(@opts))
 
     assert conn.state == :sent
     assert conn.status == 401
