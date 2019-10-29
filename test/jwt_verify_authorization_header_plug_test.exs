@@ -2,6 +2,8 @@ defmodule JwtVerifyAuthorizationHeaderPlugTest do
   use ExUnit.Case, async: true
   use Plug.Test
 
+  alias Jwt.TimeUtils.Mock, as: TimeUtils
+
   @plug Jwt.Plugs.VerifyAuthorizationHeader
 
   @opts []
@@ -14,7 +16,7 @@ defmodule JwtVerifyAuthorizationHeaderPlugTest do
   @four_minutes 4 * 60
 
   test "Missing authorization header returns 401" do
-    Application.put_env(:jwt, :current_time_for_test, :os.system_time(:seconds))
+    TimeUtils.set_time_for_tests()
     conn = conn(:get, "/protected")
 
     conn = @plug.call(conn, @plug.init(@opts))
@@ -25,7 +27,7 @@ defmodule JwtVerifyAuthorizationHeaderPlugTest do
   end
 
   test "Empty authorization header returns 401" do
-    Application.put_env(:jwt, :current_time_for_test, :os.system_time(:seconds))
+    TimeUtils.set_time_for_tests()
     conn = conn(:get, "/protected")
     conn = put_req_header conn, "authorization", ""
 
@@ -37,7 +39,7 @@ defmodule JwtVerifyAuthorizationHeaderPlugTest do
   end
 
   test "Invalid token in authorization header returns 401" do
-    Application.put_env(:jwt, :current_time_for_test, :os.system_time(:seconds))
+    TimeUtils.set_time_for_tests()
     conn = conn(:get, "/protected")
     conn = put_req_header conn, "authorization", "token"
 
@@ -49,7 +51,7 @@ defmodule JwtVerifyAuthorizationHeaderPlugTest do
   end
 
   test "Valid token is allowed" do
-    Application.put_env(:jwt, :current_time_for_test, :os.system_time(:seconds))
+    TimeUtils.set_time_for_tests()
     valid_token = @test_header <> "." <> @test_claims <> "." <> @test_signature
     auth_header= "Bearer " <> valid_token
 
@@ -63,7 +65,7 @@ defmodule JwtVerifyAuthorizationHeaderPlugTest do
   end
 
   test "Expired token is rejected by default" do
-    Application.put_env(:jwt, :current_time_for_test, :os.system_time(:seconds))
+    TimeUtils.set_time_for_tests()
     expired_token = @test_header <> "." <> @test_claims <> "." <> @test_signature
     auth_header= "Bearer " <> expired_token
 
@@ -77,7 +79,7 @@ defmodule JwtVerifyAuthorizationHeaderPlugTest do
   end
 
   test "Token expiration allowed below but outside time window" do
-    Application.put_env(:jwt, :current_time_for_test, @test_token_exp_value - @ten_minutes)
+    TimeUtils.set_time_for_tests(@test_token_exp_value - @ten_minutes)
     expired_in_window_token = @test_header <> "." <> @test_claims <> "." <> @test_signature
     auth_header= "Bearer " <> expired_in_window_token
 
@@ -91,7 +93,7 @@ defmodule JwtVerifyAuthorizationHeaderPlugTest do
   end
 
   test "Token expiration not allowed below but within time window" do
-    Application.put_env(:jwt, :current_time_for_test, @test_token_exp_value - @four_minutes)
+    TimeUtils.set_time_for_tests(@test_token_exp_value - @four_minutes)
     expired_in_window_token = @test_header <> "." <> @test_claims <> "." <> @test_signature
     auth_header= "Bearer " <> expired_in_window_token
 
@@ -104,8 +106,8 @@ defmodule JwtVerifyAuthorizationHeaderPlugTest do
     assert conn.resp_body == ""
   end
 
-  test "Token expiration not allowed avobe expiration time" do
-    Application.put_env(:jwt, :current_time_for_test, @test_token_exp_value + 1)
+  test "Token expiration not allowed above expiration time" do
+    TimeUtils.set_time_for_tests(@test_token_exp_value + 1)
     expired_in_window_token = @test_header <> "." <> @test_claims <> "." <> @test_signature
     auth_header= "Bearer " <> expired_in_window_token
 
