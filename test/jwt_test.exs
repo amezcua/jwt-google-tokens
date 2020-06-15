@@ -39,13 +39,18 @@ defmodule JwtTest do
   end
 
   test "The claims are extracted from a valid Google token" do
-    valid_google_token = @valid_google_token_header <> "." <> @valid_google_token_claims <> "." <> @valid_google_token_signature
+    valid_google_token =
+      @valid_google_token_header <>
+        "." <> @valid_google_token_claims <> "." <> @valid_google_token_signature
+
     assert {:ok, _} = Jwt.verify(valid_google_token)
   end
 
   test "The claims are extracted from a valid Firebase token" do
-    valid_firebase_token = @valid_firebase_token_header <> "." <> @valid_firebase_token_claims <> "." <> @valid_firebase_token_signature
+    valid_firebase_token =
+      @valid_firebase_token_header <>
+        "." <> @valid_firebase_token_claims <> "." <> @valid_firebase_token_signature
+
     assert {:ok, _} = Jwt.verify(valid_firebase_token)
   end
-
 end
