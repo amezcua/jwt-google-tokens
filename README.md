@@ -1,8 +1,6 @@
 
 # JWT verifier for Google tokens
 
-![](https://api.travis-ci.org/amezcua/jwt-google-tokens.svg?branch=master)
-
 Elixir library that verifies Google generated JWT tokens (such as those returned by Firebase authentication) and returns the claims data.
 
 The intended use case is to validate signed tokens retrieved by a mobile app using [Firebase Authentication](https://firebase.google.com/docs/auth/), where the app talks directly with the Google Authentication service and retrieves an authentication token (a Json Web Token) that can be later sent to a server for verification or by web apps that use the Firebase [JavaScript API](https://firebase.google.com/docs/auth/web/google-signin).  
