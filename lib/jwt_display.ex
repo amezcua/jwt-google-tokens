@@ -31,6 +31,6 @@ defmodule Jwt.Display do
     end
 
     defp _display([{:ok, _header}, {:ok, claims}, {:ok, _signature}], [_header_b64, _claims_b64, _signature_b64]) do
-        {:claims, Poison.Parser.parse!(claims, %{})}
+        {:claims, Jason.decode!(claims, %{})}
     end
 end
