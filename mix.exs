@@ -28,8 +28,8 @@ defmodule Jwt.Mixfile do
     {:httpoison, "~> 1.6" },
     {:poison, "~> 4.0.1" },
     {:ex_doc, only: :dev, runtime: false, github: "elixir-lang/ex_doc" },
-    {:cowboy, "~> 2.6.3"},
-    {:plug, "~> 1.8.3"},
+    {:cowboy, "~> 2.8"},
+    {:plug, "~> 1.10"},
     {:stash, "~> 1.0"},
     {:timex, "~> 3.6.1"}
     ]
